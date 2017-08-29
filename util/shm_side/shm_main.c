@@ -249,6 +249,10 @@ void shm_main_run(struct worker *worker)
 
 		shm_stat->mem.msg = (long long)slabhash_get_mem(worker->env.msg_cache);
 		shm_stat->mem.rrset = (long long)slabhash_get_mem(&worker->env.rrset_cache->table);
+#ifdef USE_DNSCRYPT
+		shm_stat->mem.dnscrypt_shared_secret = (long long)slabhash_get_mem(
+			worker->daemon->dnscenv->shared_secrets_cache);
+#endif
 		shm_stat->mem.val = (long long)mod_get_mem(&worker->env,
 			"validator");
 		shm_stat->mem.iter = (long long)mod_get_mem(&worker->env,
